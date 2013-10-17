@@ -3,6 +3,7 @@
 # load modules
 use DBI;
 use Excel::Writer::XLSX;
+use Time::Piece;
 use DateTime;
 use DateTime::Format::Pg;
 
@@ -52,7 +53,8 @@ my $sth = $dbh->prepare("$sql{'patron'}");
 $sth->execute();
 
 # set up the Excel file
-my $filepath = 'c:\\path\\to\\your\\new\\file.xlsx'; # make sure to escape the slashes in the file path
+my $ts = Time::Piece->new->strftime('%Y%m%d-%H%M');
+my $filepath = 'c:\\path\\to\\your\\new\\file-'.$ts.'.xlsx'; # make sure to escape the slashes in the file path
 my $workbook = Excel::Writer::XLSX->new("$filepath");
 my $worksheet = $workbook->add_worksheet();
 my ($col, $row) = (0, 0);
